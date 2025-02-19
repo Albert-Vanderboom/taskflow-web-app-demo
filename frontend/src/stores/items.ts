@@ -14,11 +14,12 @@ export const useItemStore = defineStore('items', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await itemService.getAll()
-      items.value = response
+      const data = await itemService.getAll()
+      items.value = data
     } catch (e) {
       error.value = '获取数据失败'
-      console.error(e)
+      console.error('Failed to fetch items:', e)
+      throw e // 向上传递错误
     } finally {
       loading.value = false
     }
@@ -29,9 +30,9 @@ export const useItemStore = defineStore('items', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await itemService.create(data)
-      items.value.push(response)
-      return response
+      const newItem = await itemService.create(data)
+      items.value.unshift(newItem)
+      return newItem
     } catch (e) {
       error.value = '创建失败'
       throw e
@@ -45,12 +46,12 @@ export const useItemStore = defineStore('items', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await itemService.update(id, data)
+      const updatedItem = await itemService.update(id, data)
       const index = items.value.findIndex(item => item.id === id)
       if (index !== -1) {
-        items.value[index] = response
+        items.value[index] = updatedItem
       }
-      return response
+      return updatedItem
     } catch (e) {
       error.value = '更新失败'
       throw e
@@ -74,6 +75,20 @@ export const useItemStore = defineStore('items', () => {
     }
   }
 
+  // 获取单个项目
+  async function getById(id: number) {
+    loading.value = true
+    error.value = null
+    try {
+      return await itemService.getById(id)
+    } catch (e) {
+      error.value = '获取项目详情失败'
+      throw e
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     // 状态
     items,
@@ -83,6 +98,7 @@ export const useItemStore = defineStore('items', () => {
     fetchItems,
     createItem,
     updateItem,
-    deleteItem
+    deleteItem,
+    getById
   }
 }) 

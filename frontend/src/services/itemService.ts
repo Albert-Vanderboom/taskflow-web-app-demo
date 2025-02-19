@@ -3,18 +3,28 @@ import type { Item, CreateItemDTO, UpdateItemDTO } from '@/types/item'
 
 export const itemService = {
   // 获取所有项目
-  getAll: () => api.get<Item[]>('/items'),
+  getAll: async () => {
+    console.log('Fetching all items...')
+    return await api.get<Item[]>('/items')
+  },
   
   // 获取单个项目
-  getById: (id: number) => api.get<Item>(`/items/${id}`),
+  getById: async (id: number) => {
+    return await api.get<Item>(`/items/${id}`)
+  },
   
   // 创建项目
-  create: (data: CreateItemDTO) => api.post<Item>('/items', data),
+  create: async (data: CreateItemDTO) => {
+    return await api.post<Item>('/items', data)
+  },
   
   // 更新项目
-  update: (id: number, data: UpdateItemDTO) => 
-    api.put<Item>(`/items/${id}`, data),
+  update: async (id: number, data: UpdateItemDTO) => {
+    return await api.put<Item>(`/items/${id}`, data)
+  },
   
   // 删除项目
-  delete: (id: number) => api.delete(`/items/${id}`)
+  delete: async (id: number) => {
+    await api.delete(`/items/${id}`)
+  }
 } 
