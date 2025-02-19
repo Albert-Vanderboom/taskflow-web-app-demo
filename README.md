@@ -1,6 +1,6 @@
 # TaskFlow: Web App Demo
 
-[Enhen&#39;bahenbaglish](./README.en.md) | 简体中文
+[English](./README.en.md) | 简体中文
 
 这是一个为复旦大学软件工程课程开发的 Web 应用程序演示项目。作者开发此项目旨在向学生展示现代 Web 开发的最佳实践和工程化方法。
 
