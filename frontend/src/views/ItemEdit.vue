@@ -6,6 +6,7 @@ import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { UpdateItemDTO } from '@/types/item'
 import PageContainer from '@/components/PageContainer.vue'
+import { ArrowLeft } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -18,13 +19,25 @@ const formData = ref<UpdateItemDTO>({
 })
 
 // 表单规则
+const messages = {
+  validation: {
+    title: 'Please enter a title',
+    titleLength: 'Title must be between 1 and 100 characters',
+    descriptionLength: 'Description cannot exceed 500 characters'
+  },
+  success: 'Task updated successfully',
+  error: 'Failed to update task',
+  invalidId: 'Invalid task ID',
+  loadError: 'Failed to load task details'
+}
+
 const rules = ref<FormRules>({
   title: [
-    { required: true, message: '请输入标题', trigger: 'blur' },
-    { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
+    { required: true, message: messages.validation.title, trigger: 'blur' },
+    { min: 1, max: 100, message: messages.validation.titleLength, trigger: 'blur' }
   ],
   description: [
-    { max: 500, message: '长度不能超过 500 个字符', trigger: 'blur' }
+    { max: 500, message: messages.validation.descriptionLength, trigger: 'blur' }
   ]
 })
 
@@ -36,7 +49,7 @@ const loading = ref(true)
 const fetchItem = async () => {
   const id = parseInt(route.params.id as string)
   if (isNaN(id)) {
-    ElMessage.error('无效的项目ID')
+    ElMessage.error(messages.invalidId)
     router.push('/items')
     return
   }
@@ -49,7 +62,7 @@ const fetchItem = async () => {
       description: response.description
     }
   } catch (e) {
-    ElMessage.error('获取项目详情失败')
+    ElMessage.error(messages.loadError)
     router.push('/items')
   } finally {
     loading.value = false
@@ -62,7 +75,7 @@ const handleSubmit = async () => {
   
   const id = parseInt(route.params.id as string)
   if (isNaN(id)) {
-    ElMessage.error('无效的项目ID')
+    ElMessage.error(messages.invalidId)
     return
   }
 
@@ -71,11 +84,11 @@ const handleSubmit = async () => {
     await formRef.value.validate()
     // 更新项目
     await itemStore.updateItem(id, formData.value)
-    ElMessage.success('更新成功')
+    ElMessage.success(messages.success)
     // 返回详情页
     router.push(`/items/${id}`)
   } catch (e) {
-    ElMessage.error('更新失败，请检查表单')
+    ElMessage.error(messages.error)
   }
 }
 
@@ -90,83 +103,76 @@ onMounted(() => {
 </script>
 
 <template>
-  <PageContainer title="编辑项目">
-    <div class="form-container">
-      <div class="form-header">
-        <el-button @click="handleCancel">返回</el-button>
-      </div>
-      
-      <div class="form-content" v-loading="loading">
-        <el-form
-          ref="formRef"
-          :model="formData"
-          :rules="rules"
-          label-width="100px"
-          class="form"
-        >
-          <el-form-item label="标题" prop="title">
-            <el-input 
-              v-model="formData.title"
-              placeholder="请输入标题"
-            />
-          </el-form-item>
+  <PageContainer title="Edit Task">
+    <template #actions>
+      <el-button @click="handleCancel">
+        <el-icon><ArrowLeft /></el-icon>
+        Back
+      </el-button>
+    </template>
 
-          <el-form-item label="描述" prop="description">
-            <el-input
-              v-model="formData.description"
-              type="textarea"
-              :rows="4"
-              placeholder="请输入描述"
-            />
-          </el-form-item>
+    <div class="form-container" v-loading="loading">
+      <el-form
+        ref="formRef"
+        :model="formData"
+        :rules="rules"
+        label-width="120px"
+        class="form"
+      >
+        <el-form-item label="Title" prop="title">
+          <el-input 
+            v-model="formData.title"
+            placeholder="Enter task title"
+          />
+        </el-form-item>
 
-          <el-form-item>
-            <el-button type="primary" @click="handleSubmit" :loading="itemStore.loading">
-              保存
-            </el-button>
-            <el-button @click="handleCancel">取消</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+        <el-form-item label="Description" prop="description">
+          <el-input
+            v-model="formData.description"
+            type="textarea"
+            :rows="4"
+            placeholder="Enter task description"
+          />
+        </el-form-item>
+
+        <el-form-item>
+          <el-button 
+            type="primary" 
+            @click="handleSubmit" 
+            :loading="itemStore.loading"
+            size="large"
+          >
+            Save Changes
+          </el-button>
+        </el-form-item>
+      </el-form>
     </div>
   </PageContainer>
 </template>
 
 <style scoped>
 .form-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.form-header {
-  padding: 20px;
-  border-bottom: 1px solid var(--el-border-color-light);
-}
-
-.form-content {
-  flex: 1;
-  padding: 40px 20px;
-  overflow: auto;
-  display: flex;
-  justify-content: center;
-}
-
-.form {
-  width: 100%;
   max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
-:deep(.el-form-item__content) {
-  justify-content: flex-start;
+:deep(.el-form-item__label) {
+  font-weight: 500;
 }
 
-:deep(.el-input),
-:deep(.el-textarea) {
-  width: 100%;
+:deep(.el-input__wrapper),
+:deep(.el-textarea__wrapper) {
+  box-shadow: none;
+  border: 1px solid var(--el-border-color);
+  transition: all 0.2s;
 }
 
-:deep(.el-form-item:last-child) {
-  margin-bottom: 0;
+:deep(.el-input__wrapper:hover),
+:deep(.el-textarea__wrapper:hover) {
+  border-color: var(--el-color-primary);
 }
 </style> 

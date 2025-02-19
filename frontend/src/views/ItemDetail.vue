@@ -2,9 +2,10 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useItemStore } from '@/stores/items'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import type { Item } from '@/types/item'
 import PageContainer from '@/components/PageContainer.vue'
+import { ArrowLeft, Edit, Delete } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -18,7 +19,7 @@ const loading = ref(true)
 const fetchItem = async () => {
   const id = parseInt(route.params.id as string)
   if (isNaN(id)) {
-    ElMessage.error('无效的项目ID')
+    ElMessage.error(messages.error.invalidId)
     router.push('/items')
     return
   }
@@ -28,7 +29,7 @@ const fetchItem = async () => {
     const response = await itemStore.getById(id)
     item.value = response
   } catch (e) {
-    ElMessage.error('获取项目详情失败')
+    ElMessage.error(messages.error.load)
     router.push('/items')
   } finally {
     loading.value = false
@@ -52,105 +53,155 @@ const handleDelete = async () => {
   if (!item.value) return
 
   try {
+    await ElMessageBox.confirm(
+      messages.confirm.delete,
+      messages.confirm.deleteTitle,
+      {
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        type: 'warning',
+      }
+    )
     await itemStore.deleteItem(item.value.id)
-    ElMessage.success('删除成功')
+    ElMessage.success(messages.success.delete)
     router.push('/items')
   } catch (e) {
-    ElMessage.error('删除失败')
+    if (e !== 'cancel') {
+      ElMessage.error(messages.error.delete)
+    }
   }
 }
 
 onMounted(() => {
   fetchItem()
 })
+
+// 更新消息文本
+const messages = {
+  error: {
+    load: 'Failed to load task details',
+    delete: 'Failed to delete task',
+    invalidId: 'Invalid task ID'
+  },
+  success: {
+    delete: 'Task deleted successfully'
+  },
+  confirm: {
+    delete: 'Are you sure you want to delete this task?',
+    deleteTitle: 'Confirm Delete'
+  }
+}
 </script>
 
 <template>
-  <PageContainer title="项目详情">
-    <div class="detail-container" v-loading="loading">
-      <div class="detail-header">
-        <div class="actions">
-          <el-button @click="handleBack">返回</el-button>
-          <el-button 
-            type="primary" 
-            @click="handleEdit"
-            v-if="item"
-          >
-            编辑
-          </el-button>
-          <el-button 
-            type="danger" 
-            @click="handleDelete"
-            v-if="item"
-          >
-            删除
-          </el-button>
-        </div>
-      </div>
-
-      <div class="detail-content">
-        <el-descriptions 
-          v-if="item" 
-          :column="1" 
-          border
-          class="descriptions"
+  <PageContainer title="Task Details">
+    <template #actions>
+      <div class="actions">
+        <el-button @click="handleBack">
+          <el-icon><ArrowLeft /></el-icon>
+          Back
+        </el-button>
+        <el-button 
+          type="primary" 
+          @click="handleEdit"
+          v-if="item"
         >
-          <el-descriptions-item label="ID">
-            {{ item.id }}
-          </el-descriptions-item>
-          
-          <el-descriptions-item label="标题">
-            {{ item.title }}
-          </el-descriptions-item>
-          
-          <el-descriptions-item label="描述">
-            {{ item.description || '暂无描述' }}
-          </el-descriptions-item>
-          
-          <el-descriptions-item label="创建时间">
-            {{ new Date(item.created_at).toLocaleString() }}
-          </el-descriptions-item>
-          
-          <el-descriptions-item label="更新时间">
-            {{ new Date(item.updated_at).toLocaleString() }}
-          </el-descriptions-item>
-        </el-descriptions>
+          <el-icon><Edit /></el-icon>
+          Edit
+        </el-button>
+        <el-button 
+          type="danger" 
+          @click="handleDelete"
+          v-if="item"
+        >
+          <el-icon><Delete /></el-icon>
+          Delete
+        </el-button>
       </div>
+    </template>
+
+    <div class="detail-container" v-loading="loading">
+      <el-descriptions 
+        v-if="item" 
+        :column="1" 
+        border
+        class="descriptions"
+      >
+        <el-descriptions-item label="ID">
+          <span class="id-badge">{{ item.id }}</span>
+        </el-descriptions-item>
+        
+        <el-descriptions-item label="Title">
+          <span class="title">{{ item.title }}</span>
+        </el-descriptions-item>
+        
+        <el-descriptions-item label="Description">
+          <div class="description">
+            {{ item.description || 'No description provided' }}
+          </div>
+        </el-descriptions-item>
+        
+        <el-descriptions-item label="Created">
+          <span class="date">
+            {{ new Date(item.created_at).toLocaleString() }}
+          </span>
+        </el-descriptions-item>
+        
+        <el-descriptions-item label="Last Updated">
+          <span class="date">
+            {{ new Date(item.updated_at).toLocaleString() }}
+          </span>
+        </el-descriptions-item>
+      </el-descriptions>
     </div>
   </PageContainer>
 </template>
 
 <style scoped>
 .detail-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.detail-header {
-  padding: 20px;
-  border-bottom: 1px solid var(--el-border-color-light);
-  display: flex;
-  justify-content: flex-end;
-}
-
-.detail-content {
-  flex: 1;
-  padding: 40px 20px;
-  overflow: auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.descriptions {
-  width: 100%;
   max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .actions {
   display: flex;
   gap: 12px;
+}
+
+.descriptions {
+  width: 100%;
+}
+
+:deep(.el-descriptions__label) {
+  font-weight: 500;
+  width: 120px;
+}
+
+.id-badge {
+  background: #f0f2f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #2B3A67;
+}
+
+.description {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: #666;
+}
+
+.date {
+  color: #666;
+  font-size: 14px;
 }
 </style> 

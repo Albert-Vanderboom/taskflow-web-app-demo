@@ -10,7 +10,10 @@ const error = ref<string | null>(null)
   <el-container class="app-container">
     <el-header>
       <div class="header-content">
-        <router-link to="/" class="logo">项目管理系统</router-link>
+        <router-link to="/" class="logo">
+          <img src="@/assets/logo.svg" alt="TaskFlow Logo" class="logo-image">
+          TaskFlow
+        </router-link>
         <el-menu
           mode="horizontal"
           router
@@ -18,8 +21,8 @@ const error = ref<string | null>(null)
           class="nav-menu"
           :default-active="$route.path"
         >
-          <el-menu-item index="/items">项目列表</el-menu-item>
-          <el-menu-item index="/items/create">创建项目</el-menu-item>
+          <el-menu-item index="/items">Tasks</el-menu-item>
+          <el-menu-item index="/items/create">New Task</el-menu-item>
         </el-menu>
       </div>
     </el-header>
@@ -56,22 +59,31 @@ const error = ref<string | null>(null)
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2B3A67;
   text-decoration: none;
   margin-right: 40px;
   white-space: nowrap;
+  letter-spacing: -1px;
+}
+
+.logo-image {
+  height: 32px;
+  margin-right: 10px;
 }
 
 .nav-menu {
   border-bottom: none;
+  font-size: 15px;
 }
 
 .el-header {
   background-color: white;
   border-bottom: 1px solid var(--el-border-color-light);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .el-main {

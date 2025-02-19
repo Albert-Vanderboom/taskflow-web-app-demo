@@ -5,6 +5,7 @@ import { useItemStore } from '@/stores/items'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { Item } from '@/types/item'
 import PageContainer from '@/components/PageContainer.vue'
+import { Plus, View, Edit, Delete } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -78,14 +79,13 @@ const handleCreate = () => {
 </script>
 
 <template>
-  <PageContainer>
+  <PageContainer title="Task Management">
     <template #actions>
-      <el-button type="primary" @click="handleCreate">创建项目</el-button>
+      <el-button type="primary" @click="handleCreate">
+        <el-icon><Plus /></el-icon>
+        Create Task
+      </el-button>
     </template>
-
-    <div v-if="error" class="error-message">
-      {{ error }}
-    </div>
 
     <div class="table-wrapper" v-loading="itemStore.loading">
       <el-table 
@@ -94,80 +94,74 @@ const handleCreate = () => {
         style="width: 100%"
       >
         <el-table-column prop="id" label="ID" width="80" />
-        <el-table-column prop="title" label="标题" />
-        <el-table-column prop="description" label="描述" />
+        <el-table-column prop="title" label="Title" min-width="200" />
+        <el-table-column prop="description" label="Description" min-width="300" />
         <el-table-column 
           prop="created_at" 
-          label="创建时间" 
+          label="Created" 
           width="180"
           :formatter="(row) => new Date(row.created_at).toLocaleString()"
         />
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="Actions" width="200" fixed="right">
           <template #default="{ row }">
             <el-button-group>
-              <el-button size="small" @click="handleView(row)">查看</el-button>
-              <el-button size="small" type="primary" @click="handleEdit(row)">
-                编辑
+              <el-button 
+                size="small" 
+                @click="handleView(row)"
+                title="View Details"
+              >
+                <el-icon><View /></el-icon>
               </el-button>
-              <el-button size="small" type="danger" @click="handleDelete(row)">
-                删除
+              <el-button 
+                size="small" 
+                type="primary" 
+                @click="handleEdit(row)"
+                title="Edit Task"
+              >
+                <el-icon><Edit /></el-icon>
+              </el-button>
+              <el-button 
+                size="small" 
+                type="danger" 
+                @click="handleDelete(row)"
+                title="Delete Task"
+              >
+                <el-icon><Delete /></el-icon>
               </el-button>
             </el-button-group>
           </template>
         </el-table-column>
       </el-table>
 
-      <div v-else-if="!itemStore.loading" class="empty-text">
-        暂无数据
+      <div v-else-if="!itemStore.loading" class="empty-state">
+        <el-empty description="No tasks found">
+          <el-button type="primary" @click="handleCreate">Create First Task</el-button>
+        </el-empty>
       </div>
     </div>
   </PageContainer>
 </template>
 
 <style scoped>
-.list-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.list-header {
-  padding: 20px;
-  border-bottom: 1px solid var(--el-border-color-light);
-}
-
-.table-container {
-  flex: 1;
-  padding: 20px;
-  overflow: auto;
-  min-height: 0; /* 重要：防止表格溢出 */
-}
-
-:deep(.el-table) {
-  height: 100%;
-  --el-table-border-color: var(--el-border-color-light);
-}
-
-:deep(.el-table__inner-wrapper) {
-  height: 100%;
+.empty-state {
+  padding: 60px 0;
+  text-align: center;
 }
 
 .table-wrapper {
-  min-height: 200px;
-  position: relative;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
-.error-message {
-  color: var(--el-color-danger);
-  padding: 12px;
-  margin-bottom: 16px;
-  background-color: var(--el-color-danger-light-9);
-  border-radius: 4px;
+:deep(.el-table) {
+  --el-table-border-color: var(--el-border-color-lighter);
+  --el-table-header-bg-color: #f8f9fc;
 }
 
-.empty-text {
-  text-align: center;
-  color: var(--el-text-color-secondary);
-  padding: 30px 0;
+:deep(.el-button-group) {
+  display: flex;
+  gap: 4px;
 }
 </style> 
