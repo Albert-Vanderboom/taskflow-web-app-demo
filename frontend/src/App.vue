@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { ElContainer, ElHeader, ElMain, ElMenu, ElMenuItem } from 'element-plus'
+import { ref } from 'vue'
+
+const error = ref<string | null>(null)
 </script>
 
 <template>
@@ -44,12 +47,12 @@ import { ElContainer, ElHeader, ElMain, ElMenu, ElMenuItem } from 'element-plus'
 }
 
 .header-content {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   height: 100%;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 40px;
 }
 
 .logo {
@@ -74,13 +77,15 @@ import { ElContainer, ElHeader, ElMain, ElMenu, ElMenuItem } from 'element-plus'
 .el-main {
   background-color: var(--el-bg-color-page);
   padding: 0;
+  min-height: calc(100vh - 60px);
 }
 
 .main-content {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px 40px;
   min-height: calc(100vh - 60px);
+  position: relative;
 }
 
 .error-message {
