@@ -1,17 +1,48 @@
-# 简单的 CRUD Web 应用
+# TaskFlow: Web App Demo
 
-这是一个使用 Vue 3 (TypeScript) + FastAPI + SQLite 构建的简单 CRUD 应用。
+[Enhen&#39;bahenbaglish](./README.en.md) | 简体中文
 
-## 项目结构 
+这是一个为复旦大学软件工程课程开发的 Web 应用程序演示项目。作者开发此项目旨在向学生展示现代 Web 开发的最佳实践和工程化方法。
 
-## 前后端交互流程
+TaskFlow 是一个经典的 CRUD（创建、读取、更新、删除）应用示例，展示了如何使用现代技术栈构建一个完整的全栈 Web 应用。
+
+## 项目概述
+
+这是一个完整的全栈应用示例，展示了：
+
+- 🏗️ 现代 Web 应用的基础架构
+- 📝 前后端分离开发模式
+- ⚡ RESTful API 设计与实现
+- 🔒 类型安全的代码实践
+- ♻️ 完整的 CRUD 操作流程
+
+## 系统架构
+
+### 技术栈
+
+#### 前端
+
+- **框架**: Vue 3 + TypeScript
+- **构建工具**: Vite
+- **UI 组件**: Element Plus
+- **状态管理**: Pinia
+- **路由**: Vue Router
+- **HTTP 客户端**: Axios
+- **代码规范**: ESLint + Prettier
+
+#### 后端
+
+- **框架**: FastAPI
+- **数据库**: SQLite
+- **ORM**: SQLAlchemy
+- **API 文档**: Swagger UI / ReDoc
+- **类型检查**: Pydantic
+- **CORS 支持**: CORSMiddleware
+
+### 前后端交互流程
 
 1. 数据流向
-   - 前端 (Vue.js) 通过 Axios 发送 HTTP 请求到后端 API
-   - 后端 (FastAPI) 接收请求，进行处理并返回响应
-   - 数据库 (SQLite) 存储持久化数据
 
-2. 具体流程
    ```
    前端 (Vue.js)                    后端 (FastAPI)                数据库 (SQLite)
    +-----------+                    +------------+                +-----------+
@@ -20,90 +51,123 @@
    |           | <---------------- |            | <------------- |           |
    +-----------+  JSON 响应         +------------+  查询结果      +-----------+
    ```
+2. 关键技术点说明
 
-3. 交互示例
-   - 创建项目：
-     1. 用户在前端表单输入数据
-     2. Vue 组件调用 API 服务发送 POST 请求
-     3. FastAPI 接收请求，验证数据
-     4. 数据写入 SQLite 数据库
-     5. 返回成功响应给前端
-     6. 前端更新状态并显示新数据
+   - **类型安全**：前端 TypeScript + 后端 Pydantic 实现端到端类型检查
+   - **状态管理**：Pinia 实现前端状态集中管理
+   - **API 设计**：符合 RESTful 规范的 API 设计
+   - **跨域处理**：CORS 中间件配置
 
-4. 数据验证
-   - 前端：使用 TypeScript 类型检查
-   - 后端：使用 Pydantic 模型验证
-   - 数据库：使用 SQLAlchemy 模型定义
+## 项目结构
 
-5. 错误处理
-   - 前端显示友好的错误提示
-   - 后端返回标准的错误响应
-   - 统一的错误处理机制
+```
+taskflow-web-app-demo/
+├── frontend/                # 前端项目目录
+│   ├── src/                # 源代码
+│   │   ├── assets/        # 静态资源
+│   │   ├── components/    # 公共组件
+│   │   ├── stores/        # Pinia 状态管理
+│   │   ├── types/         # TypeScript 类型定义
+│   │   ├── views/         # 页面组件
+│   │   └── App.vue        # 根组件
+│   └── package.json       # 依赖配置
+└── backend/                # 后端项目目录
+    ├── app/               # 应用代码
+    │   ├── models/       # 数据模型
+    │   ├── schemas/      # Pydantic 模型
+    │   ├── crud/         # 数据库操作
+    │   └── api/          # API 路由
+    ├── requirements.txt   # Python 依赖
+    └── main.py           # 入口文件
+```
 
-6. 状态管理
-   - 前端使用 Pinia 管理状态
-   - 后端维护数据库连接状态
-   - 使用 JWT 管理用户会话（可选）
+## 开发环境配置
 
-7. 跨域处理
-   - 后端配置 CORS 中间件
-   - 允许前端域名访问 API
-   ```python
-   # backend/app/main.py
-   from fastapi.middleware.cors import CORSMiddleware
-   
-   app.add_middleware(
-       CORSMiddleware,
-       allow_origins=["http://localhost:5173"],  # Vue 开发服务器
-       allow_credentials=True,
-       allow_methods=["*"],
-       allow_headers=["*"],
-   )
-   ``` 
+### 环境要求
 
-### 后端
+- Node.js >= 16
+- Anaconda 或 Miniconda
+- Git
 
-1. 安装依赖
+### 快速开始
+
+1. 克隆项目
+
+```bash
+git clone https://github.com/Albert-Vanderboom/taskflow-web-app-demo.git
+cd taskflow-web-app-demo
+```
+
+2. 启动后端
+
+```bash
+cd backend
+
+# 创建并激活 conda 环境
+conda env create -f environment.yml
+conda activate crud-app
+
+# 启动服务
+python -m uvicorn main:app --reload
+```
+
+3. 启动前端
+
+```bash
+cd frontend
+
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+```
+
+4. 访问应用
+
+- 前端页面：`http://localhost:5173`
+- API 文档：`http://localhost:8000/docs`
+
+#### 常见问题
+
+1. 如果遇到 conda 安装包失败，可以尝试：
    ```bash
-   # 使用 conda 创建和激活环境
+   # 添加 conda-forge 源
+   conda config --add channels conda-forge
+   # 重试安装
    conda env create -f environment.yml
-   conda activate crud-app
    ```
-
-2. 运行项目
+2. 如果遇到 Node 版本问题，可以尝试：
    ```bash
-   # 确保在 backend 目录下
-   cd backend
-   
-   # 运行服务器
-   python -m uvicorn app.main:app --reload
+   # 安装 node
+   nvm install --lts
+   # 设置 node 版本
+   nvm use --lts
    ```
 
-服务器将在 http://localhost:8000 运行
-可以访问 http://localhost:8000/docs 查看 API 文档
+## 学习资源
 
-### 前端
+- [Vue 3 官方文档](https://vuejs.org/guide/introduction.html)
+- [FastAPI 官方文档](https://fastapi.tiangolo.com/)
+- [Element Plus 官方文档](https://element-plus.org/)
+- [Pinia 官方文档](https://pinia.vuejs.org/)
+- [Vue Router 官方文档](https://router.vuejs.org/)
+- [Axios 官方文档](https://axios-http.com/)
 
-   ```bash
-   cd frontend
-   npm install
-   npm run format
-   npm run dev
-   ```
+## 联系方式
 
-1. 安装依赖
-   ```bash
-   # 使用 npm
-   npm create vue@latest
+- 项目链接: [https://github.com/Albert-Vanderboom/taskflow-web-app-demo](https://github.com/Albert-Vanderboom/taskflow-web-app-demo)
+- 作者邮箱: [2001dwt@gmail.com](mailto:2001dwt@gmail.com)
 
-   # 选择以下选项：
-   # ✔ Project name: frontend
-   # ✔ Add TypeScript? Yes
-   # ✔ Add JSX Support? No
-   # ✔ Add Vue Router for Single Page Application development? Yes
-   # ✔ Add Pinia for state management? Yes
-   # ✔ Add Vitest for Unit Testing? No
-   # ✔ Add an End-to-End Testing Solution? No
-   # ✔ Add ESLint for code quality? Yes
-   # ✔ Add Prettier for code formatting? Yes
-   ```
+## 致谢
+
+特别感谢：
+
+- [Cursor IDE](https://cursor.sh/) - 本项目的开发过程中使用了 Cursor IDE 的 AI 辅助编程功能
+- 复旦大学软件工程课程的所有师生对本教学项目的支持
+
+本项目也展示了如何利用现代 AI 工具进行高效的软件开发。作为一名 prompt engineer，我通过与 Cursor AI 的协作完成了这个演示项目。
+
+---
+
+🌟 如果这个教学演示项目对你有帮助，欢迎点个 star 支持一下！
