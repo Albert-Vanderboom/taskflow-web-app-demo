@@ -82,16 +82,28 @@
 服务器将在 http://localhost:8000 运行
 可以访问 http://localhost:8000/docs 查看 API 文档
 
-# 使用 npm
-npm create vue@latest
+### 前端
 
-# 选择以下选项：
-# ✔ Project name: frontend
-# ✔ Add TypeScript? Yes
-# ✔ Add JSX Support? No
-# ✔ Add Vue Router for Single Page Application development? Yes
-# ✔ Add Pinia for state management? Yes
-# ✔ Add Vitest for Unit Testing? No
-# ✔ Add an End-to-End Testing Solution? No
-# ✔ Add ESLint for code quality? Yes
-# ✔ Add Prettier for code formatting? Yes
+   ```bash
+   cd frontend
+   npm install
+   npm run format
+   npm run dev
+   ```
+
+1. 安装依赖
+   ```bash
+   # 使用 npm
+   npm create vue@latest
+
+   # 选择以下选项：
+   # ✔ Project name: frontend
+   # ✔ Add TypeScript? Yes
+   # ✔ Add JSX Support? No
+   # ✔ Add Vue Router for Single Page Application development? Yes
+   # ✔ Add Pinia for state management? Yes
+   # ✔ Add Vitest for Unit Testing? No
+   # ✔ Add an End-to-End Testing Solution? No
+   # ✔ Add ESLint for code quality? Yes
+   # ✔ Add Prettier for code formatting? Yes
+   ```
