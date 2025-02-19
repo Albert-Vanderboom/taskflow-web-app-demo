@@ -108,7 +108,7 @@ conda env create -f environment.yml
 conda activate crud-app
 
 # 启动服务
-python -m uvicorn main:app --reload
+python -m uvicorn app.main:app --reload
 ```
 
 3. 启动前端

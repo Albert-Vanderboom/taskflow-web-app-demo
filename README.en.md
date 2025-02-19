@@ -51,7 +51,6 @@ This is a complete full-stack application example that demonstrates:
    |           | <---------------- |            | <------------- |           |
    +-----------+  JSON Response    +------------+  Query Result  +-----------+
    ```
-
 2. Key Technical Points
 
    - **Type Safety**: End-to-end type checking with frontend TypeScript + backend Pydantic
@@ -109,7 +108,7 @@ conda env create -f environment.yml
 conda activate crud-app
 
 # Start service
-python -m uvicorn main:app --reload
+python -m uvicorn app.main:app --reload
 ```
 
 3. Start frontend
@@ -132,14 +131,15 @@ npm run dev
 #### Common Issues
 
 1. If conda package installation fails, try:
+
    ```bash
    # Add conda-forge channel
    conda config --add channels conda-forge
    # Retry installation
    conda env create -f environment.yml
    ```
-
 2. If you encounter Node version issues, try:
+
    ```bash
    # Install node
    nvm install --lts
