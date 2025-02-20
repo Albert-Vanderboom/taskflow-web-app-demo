@@ -1,10 +1,10 @@
 # TaskFlow: Web App Demo
 
-[简体中文](./README.md) | English
+English | [简体中文](./README.md)
 
-This is a web application demo project developed for the Software Engineering course at Fudan University. The author developed this project to demonstrate modern web development best practices and engineering methods to students.
+This is a web application demo developed for the Software Engineering course at Fudan University. The project aims to demonstrate modern web development best practices and engineering methods.
 
-TaskFlow is a classic CRUD (Create, Read, Update, Delete) application example that demonstrates how to build a complete full-stack web application using modern technology stack.
+TaskFlow is a classic CRUD (Create, Read, Update, Delete) application example that showcases how to build a full-stack web application using modern technology stack.
 
 ## Project Overview
 
@@ -62,23 +62,33 @@ This is a complete full-stack application example that demonstrates:
 
 ```
 taskflow-web-app-demo/
-├── frontend/                # Frontend project directory
-│   ├── src/                # Source code
-│   │   ├── assets/        # Static assets
-│   │   ├── components/    # Common components
-│   │   ├── stores/        # Pinia state management
-│   │   ├── types/         # TypeScript type definitions
+├── frontend/              # Frontend project directory
+│   ├── src/
+│   │   ├── assets/        # Static assets (logo.svg)
+│   │   ├── components/    # Common components (PageContainer.vue)
+│   │   ├── services/      # API services (api.ts, itemService.ts)
+│   │   ├── stores/        # Pinia state management (items.ts)
+│   │   ├── types/         # TypeScript type definitions (item.ts)
 │   │   ├── views/         # Page components
-│   │   └── App.vue        # Root component
+│   │   │   ├── HomeView.vue
+│   │   │   ├── ItemList.vue
+│   │   │   ├── ItemCreate.vue
+│   │   │   ├── ItemEdit.vue
+│   │   │   ├── ItemDetail.vue
+│   │   │   └── NotFound.vue
+│   │   ├── App.vue        # Root component
+│   │   ├── main.ts        # Entry file
+│   │   └── router/        # Router configuration
+│   ├── index.html
 │   └── package.json       # Dependencies
-└── backend/                # Backend project directory
+└── backend/               # Backend project directory
     ├── app/               # Application code
-    │   ├── models/       # Data models
-    │   ├── schemas/      # Pydantic models
-    │   ├── crud/         # Database operations
-    │   └── api/          # API routes
-    ├── requirements.txt   # Python dependencies
-    └── main.py           # Entry file
+    │   ├── models/        # Data models (item.py)
+    │   ├── schemas/       # Pydantic models (item.py)
+    │   ├── crud/          # Database operations (item.py)
+    │   ├── database.py    # Database configuration
+    │   └── main.py        # Entry file
+    └── environment.yml    # Conda environment configuration
 ```
 
 ## Development Environment Setup

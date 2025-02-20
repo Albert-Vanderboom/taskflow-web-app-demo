@@ -62,23 +62,33 @@ TaskFlow 是一个经典的 CRUD（创建、读取、更新、删除）应用示
 
 ```
 taskflow-web-app-demo/
-├── frontend/                # 前端项目目录
-│   ├── src/                # 源代码
-│   │   ├── assets/        # 静态资源
-│   │   ├── components/    # 公共组件
-│   │   ├── stores/        # Pinia 状态管理
-│   │   ├── types/         # TypeScript 类型定义
+├── frontend/              # 前端项目目录
+│   ├── src/
+│   │   ├── assets/        # 静态资源（logo.svg）
+│   │   ├── components/    # 公共组件（PageContainer.vue）
+│   │   ├── services/      # API 服务（api.ts, itemService.ts）
+│   │   ├── stores/        # Pinia 状态管理（items.ts）
+│   │   ├── types/         # TypeScript 类型定义（item.ts）
 │   │   ├── views/         # 页面组件
-│   │   └── App.vue        # 根组件
+│   │   │   ├── HomeView.vue
+│   │   │   ├── ItemList.vue
+│   │   │   ├── ItemCreate.vue
+│   │   │   ├── ItemEdit.vue
+│   │   │   ├── ItemDetail.vue
+│   │   │   └── NotFound.vue
+│   │   ├── App.vue        # 根组件
+│   │   ├── main.ts        # 入口文件
+│   │   └── router/        # 路由配置
+│   ├── index.html
 │   └── package.json       # 依赖配置
-└── backend/                # 后端项目目录
+└── backend/               # 后端项目目录
     ├── app/               # 应用代码
-    │   ├── models/       # 数据模型
-    │   ├── schemas/      # Pydantic 模型
-    │   ├── crud/         # 数据库操作
-    │   └── api/          # API 路由
-    ├── requirements.txt   # Python 依赖
-    └── main.py           # 入口文件
+    │   ├── models/        # 数据模型（item.py）
+    │   ├── schemas/       # Pydantic 模型（item.py）
+    │   ├── crud/          # 数据库操作（item.py）
+    │   ├── database.py    # 数据库配置
+    │   └── main.py        # 入口文件
+    └── environment.yml    # Conda 环境配置
 ```
 
 ## 开发环境配置
