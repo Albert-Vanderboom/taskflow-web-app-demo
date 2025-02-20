@@ -44,9 +44,9 @@ This is a complete full-stack application example that demonstrates:
 1. Data Flow
 
    ```
-   Frontend (Vue.js)                    Backend (FastAPI)                Database (SQLite)
-   +-----------+                    +------------+                +-----------+
-   |           |  HTTP Request      |            |  SQL Query     |           |
+   Frontend (Vue.ts)             Backend (FastAPI)             Database (SQLite)
+   +-----------+                   +------------+                +-----------+
+   |           |  HTTP Request     |            |  SQL Query     |           |
    | UI        | ----------------> | REST API   | -------------> |  Tables   |
    |           | <---------------- |            | <------------- |           |
    +-----------+  JSON Response    +------------+  Query Result  +-----------+
