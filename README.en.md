@@ -165,6 +165,7 @@ npm run dev
 - [Pinia Documentation](https://pinia.vuejs.org/)
 - [Vue Router Documentation](https://router.vuejs.org/)
 - [Axios Documentation](https://axios-http.com/)
+- [Full Stack FastAPI Template](https://github.com/fastapi/full-stack-fastapi-template)
 
 ## Contact
 

@@ -44,12 +44,12 @@ TaskFlow 是一个经典的 CRUD（创建、读取、更新、删除）应用示
 1. 数据流向
 
    ```
-   前端 (Vue.ts)                    后端 (FastAPI)                数据库 (SQLite)
-   +-----------+                    +------------+                +-----------+
-   |           |  HTTP 请求         |            |  SQL 查询      |           |
-   | 用户界面   | ----------------> | REST API   | -------------> |  数据表    |
+   Frontend (Vue.ts)             Backend (FastAPI)             Database (SQLite)
+   +-----------+                   +------------+                +-----------+
+   |           |  HTTP Request     |            |  SQL Query     |           |
+   | UI        | ----------------> | REST API   | -------------> |  Tables   |
    |           | <---------------- |            | <------------- |           |
-   +-----------+  JSON 响应         +------------+  查询结果      +-----------+
+   +-----------+  JSON Response    +------------+  Query Result  +-----------+
    ```
 2. 关键技术点说明
 
@@ -163,6 +163,7 @@ npm run dev
 - [Pinia 官方文档](https://pinia.vuejs.org/)
 - [Vue Router 官方文档](https://router.vuejs.org/)
 - [Axios 官方文档](https://axios-http.com/)
+- [FastAPI 全栈模板（官方示例）](https://github.com/fastapi/full-stack-fastapi-template)
 
 ## 联系方式
 

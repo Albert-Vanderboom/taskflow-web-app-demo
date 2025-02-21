@@ -27,7 +27,7 @@ const fetchItem = async () => {
   loading.value = true
   try {
     const response = await itemStore.getById(id)
-    item.value = response
+    item.value = response.data
   } catch (e) {
     ElMessage.error(messages.error.load)
     router.push('/items')

@@ -58,8 +58,8 @@ const fetchItem = async () => {
   try {
     const response = await itemStore.getById(id)
     formData.value = {
-      title: response.title,
-      description: response.description
+      title: response.data.title,
+      description: response.data.description
     }
   } catch (e) {
     ElMessage.error(messages.loadError)

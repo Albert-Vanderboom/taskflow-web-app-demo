@@ -3,7 +3,7 @@ import type { AxiosInstance } from 'axios'
 
 // 创建 axios 实例
 export const api: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:8000/api', // 添加 /api 前缀
+  baseURL: 'http://localhost:8000/api', 
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json'
@@ -26,12 +26,12 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     console.log('API Response:', response.status, response.data)
-    return response.data // 直接返回响应数据
+    return response
   },
   (error) => {
     console.error('Response Error:', error.response?.data || error)
     // 统一错误处理
-    const message = error.response?.data?.detail || '请求失败'
+    const message = error.response?.data?.detail || 'Request failed'
     throw new Error(message)
   }
 ) 

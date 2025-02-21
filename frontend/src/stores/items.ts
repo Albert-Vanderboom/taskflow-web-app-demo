@@ -14,12 +14,12 @@ export const useItemStore = defineStore('items', () => {
     loading.value = true
     error.value = null
     try {
-      const data = await itemService.getAll()
-      items.value = data
+      const response = await itemService.getAll()
+      items.value = response.data
     } catch (e) {
-      error.value = '获取数据失败'
+      error.value = 'Failed to fetch data'
       console.error('Failed to fetch items:', e)
-      throw e // 向上传递错误
+      throw e 
     } finally {
       loading.value = false
     }
@@ -30,11 +30,12 @@ export const useItemStore = defineStore('items', () => {
     loading.value = true
     error.value = null
     try {
-      const newItem = await itemService.create(data)
+      const response = await itemService.create(data)
+      const newItem = response.data
       items.value.unshift(newItem)
       return newItem
     } catch (e) {
-      error.value = '创建失败'
+      error.value = 'Failed to create'
       throw e
     } finally {
       loading.value = false
@@ -46,14 +47,15 @@ export const useItemStore = defineStore('items', () => {
     loading.value = true
     error.value = null
     try {
-      const updatedItem = await itemService.update(id, data)
+      const response = await itemService.update(id, data)
+      const updatedItem = response.data
       const index = items.value.findIndex(item => item.id === id)
       if (index !== -1) {
         items.value[index] = updatedItem
       }
       return updatedItem
     } catch (e) {
-      error.value = '更新失败'
+      error.value = 'Failed to update'
       throw e
     } finally {
       loading.value = false
@@ -68,7 +70,7 @@ export const useItemStore = defineStore('items', () => {
       await itemService.delete(id)
       items.value = items.value.filter(item => item.id !== id)
     } catch (e) {
-      error.value = '删除失败'
+      error.value = 'Failed to delete'
       throw e
     } finally {
       loading.value = false
@@ -82,7 +84,7 @@ export const useItemStore = defineStore('items', () => {
     try {
       return await itemService.getById(id)
     } catch (e) {
-      error.value = '获取项目详情失败'
+      error.value = 'Failed to fetch item details'
       throw e
     } finally {
       loading.value = false

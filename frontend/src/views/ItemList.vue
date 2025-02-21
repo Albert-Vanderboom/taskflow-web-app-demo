@@ -19,7 +19,7 @@ const loadData = async () => {
   try {
     await itemStore.fetchItems()
   } catch (err) {
-    error.value = '加载数据失败，请刷新页面重试'
+    error.value = 'Failed to load data. Please refresh the page.'
     console.error('Failed to load items:', err)
   }
 }
@@ -55,19 +55,19 @@ const handleEdit = (item: Item) => {
 const handleDelete = async (item: Item) => {
   try {
     await ElMessageBox.confirm(
-      '确定要删除这个项目吗？',
-      '警告',
+      'Are you sure you want to delete this item?',
+      'Warning',
       {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
         type: 'warning',
       }
     )
     await itemStore.deleteItem(item.id)
-    ElMessage.success('删除成功')
+    ElMessage.success('Deleted successfully')
   } catch (e) {
     if (e !== 'cancel') {
-      ElMessage.error('删除失败')
+      ElMessage.error('Failed to delete')
     }
   }
 }
@@ -100,7 +100,7 @@ const handleCreate = () => {
           prop="created_at" 
           label="Created" 
           width="180"
-          :formatter="(row) => new Date(row.created_at).toLocaleString()"
+          :formatter="(row: Item) => new Date(row.created_at).toLocaleString()"
         />
         <el-table-column label="Actions" width="200" fixed="right">
           <template #default="{ row }">
